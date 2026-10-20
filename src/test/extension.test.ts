@@ -130,6 +130,32 @@ suite("cja", () => {
     }
   });
 
+  test("format selection", async () => {
+    const uri = vscode.Uri.joinPath(root, "cmake", "selection.cmake");
+    const editor = await vscode.window.showTextDocument(uri);
+    try {
+      const edits = await poll(
+        () =>
+          vscode.commands.executeCommand<vscode.TextEdit[]>(
+            "vscode.executeFormatRangeProvider",
+            uri,
+            new vscode.Range(1, 0, 1, 5),
+            { tabSize: 2, insertSpaces: true },
+          ),
+        (result) => (result?.length ?? 0) > 0,
+      );
+      const workspaceEdit = new vscode.WorkspaceEdit();
+      workspaceEdit.set(uri, edits);
+      await vscode.workspace.applyEdit(workspaceEdit);
+      assert.strictEqual(
+        editor.document.getText(),
+        'message(  STATUS   "first"  )\nmessage(STATUS "second")\n',
+      );
+    } finally {
+      await vscode.commands.executeCommand("workbench.action.files.revert");
+    }
+  });
+
   test("diagnostics for unbalanced blocks while typing", async () => {
     const editor = await vscode.window.showTextDocument(lists);
     try {

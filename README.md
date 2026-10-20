@@ -12,7 +12,7 @@ CMake language support for VS Code, powered by the language server of [cja](http
   to the documentation of builtin commands
 * **Completion** of command names, of the keywords of the current command, of target names and of variable names
   after `${`
-* **Outline**, **folding** and **formatting** (like `cja format`)
+* **Outline**, **folding** and **formatting** of the whole document or of the selection (like `cja format`)
 
 ## Requirements
 
