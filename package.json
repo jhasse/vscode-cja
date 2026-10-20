@@ -1,0 +1,148 @@
+{
+  "name": "cja",
+  "displayName": "cja",
+  "description": "CMake language support powered by the cja language server: semantic highlighting, diagnostics, go to definition, hover, completion and formatting",
+  "version": "0.1.0",
+  "publisher": "jhasse",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jhasse/vscode-cja.git"
+  },
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Formatters",
+    "Linters"
+  ],
+  "keywords": [
+    "cmake",
+    "cja",
+    "ninja",
+    "lsp"
+  ],
+  "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "Configuring the project runs its CMake code, so it's only possible in trusted workspaces.",
+      "restrictedConfigurations": [
+        "cja.path",
+        "cja.configureOnSave",
+        "cja.buildDir",
+        "cja.configureArgs"
+      ]
+    }
+  },
+  "contributes": {
+    "languages": [
+      {
+        "id": "cmake",
+        "aliases": [
+          "CMake",
+          "cmake"
+        ],
+        "filenames": [
+          "CMakeLists.txt"
+        ],
+        "extensions": [
+          ".cmake"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "cmake",
+        "scopeName": "source.cmake",
+        "path": "./syntaxes/cmake.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "cja.configure",
+        "title": "Configure Project",
+        "category": "cja",
+        "enablement": "isWorkspaceTrusted"
+      },
+      {
+        "command": "cja.restartServer",
+        "title": "Restart Language Server",
+        "category": "cja"
+      }
+    ],
+    "configuration": {
+      "title": "cja",
+      "properties": {
+        "cja.path": {
+          "type": "string",
+          "default": "cja",
+          "scope": "machine-overridable",
+          "markdownDescription": "Path to the `cja` executable (version 0.10.0 or newer). `${workspaceFolder}` and a leading `~` are expanded, e.g. `${workspaceFolder}/.venv/bin/cja`."
+        },
+        "cja.configureOnSave": {
+          "type": "boolean",
+          "default": false,
+          "markdownDescription": "Configure the project with cja when a file is saved and show the errors and warnings of the run as diagnostics. This runs CMake code from the project (`execute_process()`, FetchContent downloads, …) and writes the build directory."
+        },
+        "cja.buildDir": {
+          "type": "string",
+          "default": "build",
+          "description": "Build directory used for configuring."
+        },
+        "cja.strict": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Configure with `--strict`, which reports unsupported arguments and the like as errors."
+        },
+        "cja.configureArgs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [],
+          "markdownDescription": "Additional arguments for configuring, e.g. `[\"-DFOO=ON\"]`."
+        },
+        "cja.trace.server": {
+          "type": "string",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "default": "off",
+          "description": "Trace the communication between VS Code and the cja language server."
+        }
+      }
+    },
+    "configurationDefaults": {
+      "[cmake]": {
+        "editor.semanticHighlighting.enabled": true
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run bundle -- --minify",
+    "bundle": "esbuild src/extension.ts --bundle --outfile=dist/extension.js --external:vscode --format=cjs --platform=node --target=node20",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run bundle",
+    "test": "vscode-test",
+    "package": "vsce package"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^10.1.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^20.0.0",
+    "@types/vscode": "~1.91.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

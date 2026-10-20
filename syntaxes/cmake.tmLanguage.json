@@ -1,0 +1,93 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "CMake",
+  "scopeName": "source.cmake",
+  "comment": "Basic highlighting until the language server's semantic tokens arrive",
+  "patterns": [
+    { "include": "#comments" },
+    { "include": "#command" },
+    { "include": "#arguments" }
+  ],
+  "repository": {
+    "comments": {
+      "patterns": [
+        {
+          "name": "comment.block.bracket.cmake",
+          "begin": "#\\[(=*)\\[",
+          "end": "\\]\\1\\]"
+        },
+        {
+          "name": "comment.line.number-sign.cmake",
+          "match": "#.*$"
+        }
+      ]
+    },
+    "command": {
+      "match": "^\\s*([A-Za-z_][A-Za-z0-9_]*)\\s*(?=\\()",
+      "captures": {
+        "1": { "name": "entity.name.function.cmake" }
+      }
+    },
+    "arguments": {
+      "patterns": [
+        { "include": "#bracket-argument" },
+        { "include": "#string" },
+        { "include": "#variable" },
+        { "include": "#generator-expression" },
+        {
+          "name": "constant.language.boolean.cmake",
+          "match": "\\b(?i:ON|OFF|TRUE|FALSE|YES|NO)\\b"
+        },
+        {
+          "name": "constant.numeric.cmake",
+          "match": "(?<![A-Za-z0-9_.-])-?\\d+(\\.\\d+)*\\b"
+        }
+      ]
+    },
+    "bracket-argument": {
+      "name": "string.quoted.other.bracket.cmake",
+      "begin": "\\[(=*)\\[",
+      "end": "\\]\\1\\]"
+    },
+    "string": {
+      "name": "string.quoted.double.cmake",
+      "begin": "\"",
+      "end": "\"",
+      "patterns": [
+        {
+          "name": "constant.character.escape.cmake",
+          "match": "\\\\(.|$)"
+        },
+        { "include": "#variable" },
+        { "include": "#generator-expression" }
+      ]
+    },
+    "variable": {
+      "name": "variable.other.cmake",
+      "begin": "\\$(ENV|CACHE)?\\{",
+      "end": "\\}",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.variable.begin.cmake" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.variable.end.cmake" }
+      },
+      "patterns": [{ "include": "#variable" }]
+    },
+    "generator-expression": {
+      "name": "meta.generator-expression.cmake",
+      "begin": "\\$<",
+      "end": ">",
+      "beginCaptures": {
+        "0": { "name": "punctuation.definition.generator-expression.begin.cmake" }
+      },
+      "endCaptures": {
+        "0": { "name": "punctuation.definition.generator-expression.end.cmake" }
+      },
+      "patterns": [
+        { "include": "#variable" },
+        { "include": "#generator-expression" }
+      ]
+    }
+  }
+}
