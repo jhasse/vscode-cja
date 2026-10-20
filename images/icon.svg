@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="left" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4f7fe8"/>
+      <stop offset="1" stop-color="#2a4fb8"/>
+    </linearGradient>
+    <linearGradient id="right" x1="1" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f0605a"/>
+      <stop offset="1" stop-color="#c42f2a"/>
+    </linearGradient>
+    <linearGradient id="bottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#52c463"/>
+      <stop offset="1" stop-color="#2e9a3f"/>
+    </linearGradient>
+    <mask id="facets">
+      <path d="M 59.27 16.81 Q 64.00 8.00 68.73 16.81 L 117.27 107.19 Q 122.00 116.00 112.00 116.00 L 16.00 116.00 Q 6.00 116.00 10.73 107.19 Z" fill="#fff"/>
+      <g stroke="#000" stroke-width="4" stroke-linecap="round">
+        <line x1="64.0" y1="84.0" x2="64.0" y2="8.0"/>
+        <line x1="64.0" y1="84.0" x2="6.0" y2="116.0"/>
+        <line x1="64.0" y1="84.0" x2="122.0" y2="116.0"/>
+      </g>
+      <circle cx="64.0" cy="84.0" r="9" fill="#000"/>
+    </mask>
+  </defs>
+  <g mask="url(#facets)">
+    <path d="M 64.00 8.00 L 64.00 84.00 L 6.00 116.00 Z" fill="url(#left)"/>
+    <path d="M 64.00 8.00 L 122.00 116.00 L 64.00 84.00 Z" fill="url(#right)"/>
+    <path d="M 6.00 116.00 L 64.00 84.00 L 122.00 116.00 Z" fill="url(#bottom)"/>
+  </g>
+</svg>

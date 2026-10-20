@@ -4,6 +4,7 @@
   "description": "CMake language support powered by the cja language server: semantic highlighting, diagnostics, go to definition, hover, completion and formatting",
   "version": "0.1.0",
   "publisher": "jhasse",
+  "icon": "images/icon.png",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -130,6 +131,7 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile && npm run bundle",
     "test": "vscode-test",
+    "icon": "inkscape images/icon.svg --export-type=png --export-filename=images/icon.png -w 256",
     "package": "vsce package"
   },
   "dependencies": {
